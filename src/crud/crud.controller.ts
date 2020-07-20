@@ -1,6 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller } from "@nestjs/common";
 
-@Controller('crud')
+@Controller("crud")
 export class CrudController {
-    //TODO implement endpoints :)
+  //TODO implement endpoints :)
 }
