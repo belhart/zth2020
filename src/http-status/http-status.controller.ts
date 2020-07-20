@@ -10,6 +10,6 @@ export class HttpStatusController {
         ? "Not a valid status code"
         : HttpStatus[query.statusCode];
     }
-    return "Bad query request. Use statusCode?={statuscode}";
+    return "Bad query request. Use statusCode?={statuscode}. CASE SENSITIVE";
   }
 }
