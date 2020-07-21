@@ -18,7 +18,7 @@ async function bootstrap() {
     database: connectionOptions.database,
     logging: true,
     synchronize: true,
-    entities: ["./src/**/*.entity.ts", "./dist/**/*.entity.js"]
+    //entities: ["./src/**/*.entity.ts", "./dist/**/*.entity.js"]
   };
   const connection = createConnection(typeOrmOptions);
   Logger.log((await connection).query("SELECT * FROM demmo7ppms9t5j"));
