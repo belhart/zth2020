@@ -19,9 +19,6 @@ async function bootstrap() {
     logging: true,
     synchronize: true,
     entities: ["./src/**/*.entity.ts", "./dist/**/*.entity.js"],
-    extra: {
-        ssl: true
-    }  
   };
   const connection = createConnection(typeOrmOptions);
   Logger.log(connection);
