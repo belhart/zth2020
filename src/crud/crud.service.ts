@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Location } from '../entities/location.entity';
@@ -64,9 +64,41 @@ export class CrudService {
     }
 
     async CreateEmployee(employeeDto: EmployeeDto){
-        const Employee = this.employeeRepository.create(employeeDto);
-        await this.employeeRepository.save(Employee);
-        return Employee;
+        switch(employeeDto.job){
+            case("manager"): {
+                let locat = employeeDto.worksat;
+                let isThereAManager = await this.employeeRepository.find({where: {worksat: locat, job: "manager"}});
+                if (isThereAManager === null){
+                    const Employee = this.employeeRepository.create(employeeDto);
+                    await this.employeeRepository.save(Employee);
+                    return Employee;
+                }
+                throw new BadRequestException("There is a manager at this location already");
+            }
+            case("cook"):{
+                let locat = employeeDto.worksat;
+                let [allOven, amountOfOvens] = await this.equipmentRepository.findAndCount({where: {locatedat: locat, type: "oven"}});
+                let [allCooks, amountOfCook] = await this.employeeRepository.findAndCount({where: {worksat: locat, job: "cook"}});
+                if (amountOfCook < amountOfOvens){
+                    const Employee = this.employeeRepository.create(employeeDto);
+                    await this.employeeRepository.save(Employee);
+                    return Employee;
+                }
+                throw new BadRequestException("There are not enough ovens at this location already or not the same location");
+            }
+            case("cashier"):{
+                let locat = employeeDto.worksat;
+                let [allOven, amountOfCashRegisters] = await this.equipmentRepository.findAndCount({where: {locatedat: locat, type: "cash register"}});
+                let [allCooks, amountOfCashier] = await this.employeeRepository.findAndCount({where: {worksat: locat, job: "cashier"}});
+                if (amountOfCashier < amountOfCashRegisters){
+                    const Employee = this.employeeRepository.create(employeeDto);
+                    await this.employeeRepository.save(Employee);
+                    return Employee;
+                }
+                throw new BadRequestException("There are not enough cash registers at this location already or not the same location");
+            }
+        }
+        throw new BadRequestException("How did you end up here?");
     }
 
     async UpdateEmployee(employeeDto: EmployeeDto, id: string){
