@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { Location } from "./location.enity";
+import { Location } from "./location.entity";
 
 @Entity("equipement")
 export class Equipement {

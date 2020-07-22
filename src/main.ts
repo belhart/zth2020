@@ -6,7 +6,7 @@ import { ConnectionOptions, createConnection } from "typeorm";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const databaseUrl: string = process.env.DATABASE_URL;
+  /*const databaseUrl: string = process.env.DATABASE_URL;
   const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
   Logger.log(connectionOptions);
   const typeOrmOptions: ConnectionOptions = {
@@ -18,11 +18,10 @@ async function bootstrap() {
     database: connectionOptions.database,
     logging: true,
     synchronize: true,
-    //entities: ["./src/**/*.entity.ts", "./dist/**/*.entity.js"]
   };
   const connection = createConnection(typeOrmOptions);
   Logger.log((await connection).query("SELECT * FROM demmo7ppms9t5j"));
-  Logger.log(connection);
+  Logger.log(connection);*/
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
