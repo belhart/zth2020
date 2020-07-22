@@ -6,17 +6,16 @@ import { SquaresController } from "./squares/squares.controller";
 import { TypeOrmModule} from '@nestjs/typeorm'
 import { DatabaseConnetionService } from "./database-connection.service";
 //import { LocationController } from "./entities/location.controller";
+import { CrudModule } from './crud/crud.module';
 
 @Module({
   imports: [TypeOrmModule.forRootAsync({
     useClass: DatabaseConnetionService
-  })],
+  }), CrudModule],
   controllers: [
     AppController,
     HttpStatusController,
-    CrudController,
     SquaresController,
-    //LocationController,
   ],
   providers: []
 })
