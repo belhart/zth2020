@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsLowercase } from 'class-validator';
+import { IsString, IsNotEmpty, IsIn } from 'class-validator';
 
 export class EmployeeDto{
     @IsString()
@@ -7,6 +7,7 @@ export class EmployeeDto{
 
     @IsString()
     @IsNotEmpty()
+    @IsIn(["manager", "cashier", "cook"])
     job: string;
 
     @IsString()
