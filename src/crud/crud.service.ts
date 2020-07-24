@@ -1,4 +1,4 @@
-import { Injectable, Logger, BadRequestException, BadRequestException, BadRequestException, BadRequestException } from "@nestjs/common";
+import { Injectable, BadRequestException} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Location } from "../entities/location.entity";
