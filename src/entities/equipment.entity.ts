@@ -8,6 +8,10 @@ export class Equipment {
   @Column("text") name: string;
   @Column("text") type: string;
 
-  @ManyToOne((type) => Location, (locatedat) => locatedat.id, { onDelete: 'CASCADE' })
+  @ManyToOne(
+    type => Location,
+    locatedat => locatedat.id,
+    { onDelete: "CASCADE" }
+  )
   locatedat: string;
 }

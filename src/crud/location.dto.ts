@@ -1,11 +1,11 @@
-import { IsString, IsNotEmpty, IsLowercase } from 'class-validator';
+import { IsString, IsNotEmpty } from "class-validator";
 
-export class LocationDto{
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+export class LocationDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    address: string;
+  @IsString()
+  @IsNotEmpty()
+  address: string;
 }
