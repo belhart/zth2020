@@ -7,10 +7,10 @@ export class DatabaseConnetionService implements TypeOrmOptionsFactory {
     return {
       name: "default",
       type: "postgres",
-      host: "95.111.254.24",
+      host: process.env.NOT_HEROKU_HOST,
       port: 5432,
-      username: "dbowner",
-      password: "dc2ggdhn",
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
       database: "zth",
       logging: true,
       synchronize: true,

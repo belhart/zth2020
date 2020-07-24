@@ -1,4 +1,4 @@
-import { Injectable, Logger, BadRequestException } from "@nestjs/common";
+import { Injectable, Logger, BadRequestException, BadRequestException, BadRequestException, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Location } from "../entities/location.entity";
@@ -30,13 +30,23 @@ export class CrudService {
   }
 
   async UpdateLocation(locationDto: LocationDto, id: string) {
-    await this.locationRepository.update({ id }, locationDto);
-    return await this.locationRepository.findOne({ id });
+    try{
+      await this.locationRepository.update({ id }, locationDto);
+      return await this.locationRepository.findOne({ id });
+    }
+    catch{
+      throw new BadRequestException("No such location");
+    }
   }
 
   async DeleteLocation(id: string) {
-    await this.locationRepository.delete({ id });
-    return { deleted: true };
+    try{
+      await this.locationRepository.delete({ id });
+      return { deleted: true };
+    }
+    catch{
+      throw new BadRequestException("No such location");
+    }
   }
 
   ///EQUIPMENT
@@ -51,13 +61,23 @@ export class CrudService {
   }
 
   async UpdateEquipment(equipmentDto: EquipmentDto, id: string) {
-    await this.equipmentRepository.update({ id }, equipmentDto);
-    return await this.equipmentRepository.findOne({ id });
+    try{
+      await this.equipmentRepository.update({ id }, equipmentDto);
+      return await this.equipmentRepository.findOne({ id });
+    }
+    catch{
+      throw new BadRequestException("No such equipment");
+    }
   }
 
   async DeleteEquipment(id: string) {
-    await this.equipmentRepository.delete({ id });
-    return { deleted: true };
+    try {
+      await this.equipmentRepository.delete({ id });
+      return { deleted: true };
+    }
+    catch{
+      throw new BadRequestException("No shuch equipment");
+    }
   }
 
   ///EMPLOYEE
@@ -136,12 +156,22 @@ export class CrudService {
   }
 
   async UpdateEmployee(employeeDto: EmployeeDto, id: string) {
-    await this.employeeRepository.update({ id }, employeeDto);
-    return await this.employeeRepository.findOne({ id });
+    try{
+      await this.employeeRepository.update({ id }, employeeDto);
+      return await this.employeeRepository.findOne({ id });
+    }
+    catch{
+      throw new BadRequestException("No such employee");
+    }
   }
 
   async DeleteEmployee(id: string) {
-    await this.employeeRepository.delete({ id });
-    return { deleted: true };
+    try{
+      await this.employeeRepository.delete({ id });
+      return { deleted: true };
+    }
+    catch{
+      throw new BadRequestException("No such employee");
+    }
   }
 }
