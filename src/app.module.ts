@@ -5,7 +5,7 @@ import { CrudController } from "./crud/crud.controller";
 import { SquaresController } from "./squares/squares.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DatabaseConnetionService } from "./database-connection.service";
-//import { LocationController } from "./entities/location.controller";
+import { StairsController } from "./stairs/stairs.controller";
 import { CrudModule } from "./crud/crud.module";
 
 @Module({
@@ -15,7 +15,7 @@ import { CrudModule } from "./crud/crud.module";
     }),
     CrudModule
   ],
-  controllers: [AppController, HttpStatusController, SquaresController],
+  controllers: [AppController, HttpStatusController, SquaresController, StairsController],
   providers: []
 })
 export class AppModule {}
