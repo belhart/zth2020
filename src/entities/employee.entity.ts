@@ -25,4 +25,6 @@ export class Employee {
     { onDelete: "CASCADE" }
   )
   worksat: string;
+
+  @Column("int") salary: Number;
 }

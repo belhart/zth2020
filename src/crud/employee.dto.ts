@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsIn } from "class-validator";
+import { IsString, IsNotEmpty, IsIn, Min, IsInt } from "class-validator";
 
 export class EmployeeDto {
   @IsString()
@@ -17,4 +17,9 @@ export class EmployeeDto {
   @IsString()
   @IsNotEmpty()
   operates: string;
+
+  @IsInt()
+  @IsNotEmpty()
+  @Min(300)
+  salary: Number;
 }
