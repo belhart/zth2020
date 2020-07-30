@@ -1,14 +1,15 @@
-import { Injectable, BadRequestException, Logger} from "@nestjs/common";
+import { Injectable, BadRequestException} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Location } from "../entities/location.entity";
 import { LocationDto } from "./location.dto";
-import { Equipment } from "src/entities/equipment.entity";
-import { Employee } from "src/entities/employee.entity";
+import { Equipment } from "../entities/equipment.entity";
+import { Employee } from "../entities/employee.entity";
 import { EquipmentDto } from "./equipment.dto";
 import { EmployeeDto } from "./employee.dto";
+import console = require("console");
 
-@Injectable()
+@Injectable() // szétszedni ezt a vackot több fileba
 export class CrudService {
   constructor(
     @InjectRepository(Location)
@@ -90,6 +91,8 @@ export class CrudService {
 
   async CreateEmployee(employeeDto: EmployeeDto) {
     if (employeeDto.name.split(' ').length > 3 || employeeDto.name.split(' ').length < 2) throw new BadRequestException("The name of the employee can only be a maximum of 3 words and minimum of 2");
+    await notSameLocationCheck(employeeDto, this.equipmentRepository).catch(err => {throw new BadRequestException(err.message)});
+    await equipmentInUseCheck(employeeDto, this.employeeRepository).catch(err => {throw new BadRequestException(err.message)});
     switch (employeeDto.job) {
       case "manager": {
         let locat = employeeDto.worksat;
@@ -136,7 +139,7 @@ export class CrudService {
             return await CreateEmployeeAfterValidation(employeeDto, this.employeeRepository);
           }
           throw new BadRequestException(
-            "There are not enough ovens at this location already or not the same location"
+            "There are not enough ovens at this location"
           );
         };
         throw new BadRequestException("Cooks can only operate ovens");
@@ -165,7 +168,7 @@ export class CrudService {
             throw new BadRequestException("The salary of the employee is too low or too high than the avarge salary at this location");
           }
           throw new BadRequestException(
-            "There are not enough cash registers at this location already or not the same location"
+            "There are not enough cash registers at this location"
           );
         };
         throw new BadRequestException("Cashiers can only operate cash registers");
@@ -227,4 +230,23 @@ async function CreateEmployeeAfterValidation(employeeDto: EmployeeDto, employeeR
 
 function isNumeric(num){
   return isNaN(num)
+}
+
+async function notSameLocationCheck(employeeDto: EmployeeDto, equipmentRepository){
+  const equipId = employeeDto.operates;
+  let locat = employeeDto.worksat;
+  const sameLocation = await equipmentRepository.find({where: {id: equipId, locatedat: locat}}); // 0 ha nem ugyanaz, 1 ha ugyanaz
+  if (sameLocation.length === 0) {
+    throw new BadRequestException("Not the same location");
+  }
+  return;
+}
+
+async function equipmentInUseCheck(employeeDto, employeeRepository){
+  const equipId = employeeDto.operates;
+  const sameLocation = await employeeRepository.find({where: {operates: equipId}});
+  if (sameLocation.length === 0) {
+    return;
+  }
+  throw new BadRequestException("Equipment already in use by someone else");
 }

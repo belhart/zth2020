@@ -10,14 +10,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { DatabaseConnetionService } from "src/database-connection.service";
 import { Location } from "../entities/location.entity";
 import { Equipment } from "../entities/equipment.entity";
-import { Employee } from "src/entities/employee.entity";
+import { Employee } from "../entities/employee.entity";
 import { CrudGateway } from './crud.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Location, Equipment, Employee])],
-  providers: [CrudService,CrudGateway],
+  providers: [CrudService],
   controllers: [
-    CrudController,
     LocationController,
     EquipmentController,
     EmployeeController
