@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { CrudService } from "./crud.service";
 import {
-  CrudController,
+  GatewayController,
   LocationController,
   EquipmentController,
   EmployeeController
@@ -11,15 +11,17 @@ import { DatabaseConnetionService } from "src/database-connection.service";
 import { Location } from "../entities/location.entity";
 import { Equipment } from "../entities/equipment.entity";
 import { Employee } from "../entities/employee.entity";
-import { CrudGateway } from './crud.gateway';
+import { CrudOuterGateway } from './crud-outer.gateway';
+import { CrudInnerGateway } from './crud-inner.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Location, Equipment, Employee])],
-  providers: [CrudService],
+  providers: [CrudService,CrudOuterGateway],
   controllers: [
     LocationController,
     EquipmentController,
-    EmployeeController
+    EmployeeController,
+    GatewayController
   ]
 })
 export class CrudModule {}

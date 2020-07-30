@@ -35,18 +35,13 @@ describe("AppController (e2e)", () => {
         synchronize: true,
       }),]
     }).compile();
-  })
-
-
-  beforeEach(async () => {
-    jest.setTimeout(300000);
     app = moduleFixture.createNestApplication();
     locationRepository = moduleFixture.get('LocationRepository');
     equipmentRepository = moduleFixture.get('EquipmentRepository');
     employeeRepository = moduleFixture.get('EmployeeRepository');
     await app.init();
   })
-
+  
   afterEach(async () => {
     await locationRepository.query(`DELETE FROM location;`);
   });

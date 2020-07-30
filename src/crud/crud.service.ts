@@ -8,6 +8,7 @@ import { Employee } from "../entities/employee.entity";
 import { EquipmentDto } from "./equipment.dto";
 import { EmployeeDto } from "./employee.dto";
 import console = require("console");
+import { CrudOuterGateway } from "./crud-outer.gateway";
 
 @Injectable() // szétszedni ezt a vackot több fileba
 export class CrudService {
@@ -16,7 +17,8 @@ export class CrudService {
     private locationRepository: Repository<Location>,
     @InjectRepository(Equipment)
     private equipmentRepository: Repository<Equipment>,
-    @InjectRepository(Employee) private employeeRepository: Repository<Employee>
+    @InjectRepository(Employee) private employeeRepository: Repository<Employee>,
+    private gateway: CrudOuterGateway
   ) {}
 
   ///LOCATION
@@ -26,6 +28,7 @@ export class CrudService {
     if (isNumeric(strFirstFour)) throw new BadRequestException("Location address must start with 4 numbers");
     const location = this.locationRepository.create(locationDto);
     await this.locationRepository.save(location);
+    this.gateway.wss.emit('location', location);
     return location;
   }
 

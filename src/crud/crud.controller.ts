@@ -9,12 +9,20 @@ import {
   Body,
   ValidationPipe,
   Delete,
-  Param
+  Param,
+  Logger,
+  Req,
+  Response,
 } from "@nestjs/common";
 import { CrudService } from "./crud.service";
 import { LocationDto } from "./location.dto";
 import { EquipmentDto } from "./equipment.dto";
 import { EmployeeDto } from "./employee.dto";
+import { CrudOuterGateway } from './crud-outer.gateway';
+import { CrudInnerGateway } from "./crud-inner.gateway";
+import { Socket } from "net";
+import * as rawbody from 'raw-body';
+import { get } from "http";
 
 @Controller("api")
 export class CrudController {
@@ -134,5 +142,26 @@ export class EmployeeController {
     if (request.headers["content-type"] !== "application/json")
       throw new BadRequestException("Invalid content type :(");
     return this.crudService.UpdateEmployee(employeeDto, id);
+  }
+}
+
+@Controller("api/order")
+export class GatewayController{
+  constructor(private gateway: CrudOuterGateway) {}
+
+  @Post()
+  async placeAnOrder(@Body() data, @Req() req){
+    if (req.readable) {
+      // body is ignored by NestJS -> get raw body from request
+      const raw = await rawbody(req);
+      const text = raw.toString().trim();
+      const asd = new Socket();
+      return this.gateway.handleEvent(asd, text);
+
+    } else {
+      // body is parsed by NestJS
+      const asd = new Socket();
+      return this.gateway.handleEvent(asd, data);
+    }
   }
 }
