@@ -12,7 +12,7 @@ import {
   Param,
   Logger,
   Req,
-  Response,
+  Res,
 } from "@nestjs/common";
 import { CrudService } from "./crud.service";
 import { LocationDto } from "./location.dto";
@@ -22,7 +22,9 @@ import { CrudOuterGateway } from './crud-outer.gateway';
 import { CrudInnerGateway } from "./crud-inner.gateway";
 import { Socket } from "net";
 import * as rawbody from 'raw-body';
+import { Response } from 'express';
 import { get } from "http";
+import path = require("path");
 
 @Controller("api")
 export class CrudController {
@@ -156,12 +158,28 @@ export class GatewayController{
       const raw = await rawbody(req);
       const text = raw.toString().trim();
       const asd = new Socket();
-      return this.gateway.handleEvent(asd, text);
+      asd.connect(3000, 'localhost', function(){
+          asd.on('connetion', data => Logger.log(data));
+          asd.on('msgRdy', data => Logger.log(data));
+          this.gateway.handleEvent(asd, text);
+          console.log('Connected');
+          asd.emit('order', text);
+      });
+      asd.on('connetion', data => Logger.log(data));
+      //return this.gateway.handleEvent(asd, text);
 
     } else {
       // body is parsed by NestJS
       const asd = new Socket();
       return this.gateway.handleEvent(asd, data);
     }
+
+    return "asd";
+  }
+
+
+  @Get()
+  get(@Res() res: Response) {
+    res.sendFile(path.join(__dirname + '/static/index.html'));
   }
 }

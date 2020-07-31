@@ -1,21 +1,31 @@
-import { WebSocketGateway, WebSocketServer, OnGatewayConnection, SubscribeMessage, MessageBody } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer, OnGatewayConnection, SubscribeMessage, MessageBody, OnGatewayInit } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket } from 'net';
 
-@WebSocketGateway()
-export class CrudInnerGateway implements OnGatewayConnection{
+@WebSocketGateway({namespace: 'inner'})
+export class CrudInnerGateway implements OnGatewayConnection, OnGatewayInit{
     @WebSocketServer() wss;
 
-    @SubscribeMessage('inner')
-    handleConnection(client){
-        Logger.log("111");
-        client.emit('connection', 'Fasza csatlakozas');
+    afterInit() {
+        console.log('Gateway initialized');
     }
 
     @SubscribeMessage('inner')
-    handleEvent(client: Socket, data: unknown) {
-        Logger.log("as3d");
-        client.emit('msgback', "asdasd");
+    handleConnection(client){
+        Logger.log("eeee");
+        client.emit('connection', 'Fasza csatlakozas2');
+    }
+
+    @SubscribeMessage('inner')
+    handleEvent(client: Socket, data: string): void {
+        
+        Logger.log("asd");
+        client.emit('msgRdy', 'Order ready');
+    }
+
+    @SubscribeMessage('inner')
+    onEvent(client: Socket, data: string): void {
+        Logger.log("asd");
     }
 
     /*const@SubscribeMessage('inner')

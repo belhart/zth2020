@@ -16,7 +16,7 @@ import { CrudInnerGateway } from './crud-inner.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Location, Equipment, Employee])],
-  providers: [CrudService,CrudOuterGateway],
+  providers: [CrudService,CrudOuterGateway, CrudInnerGateway],
   controllers: [
     LocationController,
     EquipmentController,
