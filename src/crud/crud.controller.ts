@@ -180,6 +180,6 @@ export class GatewayController{
 
   @Get()
   get(@Res() res: Response) {
-    res.sendFile(path.join(__dirname + '/static/index.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
   }
 }
