@@ -18,9 +18,9 @@ export class CrudOuterGateway implements OnGatewayConnection, OnGatewayInit {
     }
 
     @SubscribeMessage('order')
-    handleEvent(client: Socket, data: string): void {
-        Logger.log(data);
-        client.emit('inner', data);
+    async handleEvent(client: Socket, data: string) {
+        await sleep(1000);
+        client.emit("orderRdy", "READY");
     }
 }
 

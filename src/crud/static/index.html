@@ -4,21 +4,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
     function websocketConnect(){
+    document.getElementById('messageFromServer').innerHTML = <h2>Order status: placed</h2>;
     const socket = io('wss://zth-main.herokuapp.com/order');
     socket.on('connection', (data) => console.log(data));
-    socket.on('orderRdy', (data) => console.log(data));
+    socket.on('orderRdy', (data) => {
+        console.log(data);
+        document.getElementById('messageFromServer').innerHTML = <h2>Order status: ${data}</h2>;
+    });
     socket.emit('order', "new order data text test");
+    document.getElementById('messageFromServer').innerHTML = <h2>Order status: sent</h2>;
     }
     </script>
 </head>
-
-<h3>node.js Express Static content using HTML5 websocket client</h3>
-
-<p>This is a static page served from Express. It uses HTML5 Websockets api
-to connect to a node.js Websocket sever</p>
-<p>Press to connect and submit websocket message to websocket server</p>
-
-<button onclick="websocketConnect()">Connect to server via websocket</button>
+<button onclick="websocketConnect()">Place order</button>
 
 <div id="messageFromServer">
 </div>
