@@ -4,7 +4,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
     function websocketConnect(){
-    const socket = io('http://localhost:3000/order');
+    const socket = io('http://localhost:'+ process.env.PORT + '/order');
     socket.on('connection', (data) => console.log(data));
     socket.on('orderRdy', (data) => console.log(data));
     socket.emit('order', "new order data text test");
