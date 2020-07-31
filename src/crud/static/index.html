@@ -9,13 +9,15 @@
     socket.on('connection', (data) => console.log(data));
     socket.on('orderRdy', (data) => {
         console.log(data);
-        document.getElementById('messageFromServer').innerHTML = "Order status: ${data}";
+        document.getElementById('messageFromServer').innerHTML = "Order status: " + data;
     });
-    socket.emit('order', "new order data text test");
+    console.log(document.getElementById('fname').value);
+    socket.emit('order', document.getElementById('fname').value);
     document.getElementById('messageFromServer').innerHTML = "Order status: sent";
     }
     </script>
 </head>
+<input type="text" id="fname" name="fname">
 <button onclick="websocketConnect()">Place order</button>
 
 <div id="messageFromServer">
