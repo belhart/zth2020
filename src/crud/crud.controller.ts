@@ -1,4 +1,4 @@
-import {
+/*import {
   Controller,
   Post,
   Get,
@@ -15,15 +15,13 @@ import {
   Res,
 } from "@nestjs/common";
 import { CrudService } from "./crud.service";
-import { LocationDto } from "./location.dto";
-import { EquipmentDto } from "./equipment.dto";
-import { EmployeeDto } from "./employee.dto";
-import { CrudOuterGateway } from './crud-outer.gateway';
-import { CrudInnerGateway } from "./crud-inner.gateway";
+import { LocationDto } from "./dto/location.dto";
+import { EquipmentDto } from "./dto/equipment.dto";
+import { EmployeeDto } from "./dto/employee.dto";
+import { CrudGateway } from './crud.gateway';
 import { Socket } from "net";
 import * as rawbody from 'raw-body';
 import { Response } from 'express';
-import { get } from "http";
 import path = require("path");
 
 @Controller("api")
@@ -149,7 +147,7 @@ export class EmployeeController {
 
 @Controller("api/order")
 export class GatewayController{
-  constructor(private gateway: CrudOuterGateway) {}
+  constructor(private gateway: CrudGateway) {}
 
   @Post()
   async placeAnOrder(@Body() data, @Req() req){
@@ -182,4 +180,4 @@ export class GatewayController{
   get(@Res() res: Response) {
     res.sendFile(path.join(__dirname + '/index.html'));
   }
-}
+}*/

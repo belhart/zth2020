@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Location } from "./location.entity";
-import { type } from "os";
 
 @Entity("equipement")
 export class Equipment {

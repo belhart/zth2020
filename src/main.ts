@@ -1,9 +1,5 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import * as PostgressConnectionStringParser from "pg-connection-string";
-import { Logger } from "@nestjs/common";
-import { ConnectionOptions, createConnection } from "typeorm";
-import { promises as fs } from 'fs';
 
 
 async function bootstrap() {

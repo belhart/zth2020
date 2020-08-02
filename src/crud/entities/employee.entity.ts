@@ -3,9 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToOne
 } from "typeorm";
-import { Location } from "../entities/location.entity";
+import { Location } from "./location.entity";
 import { Equipment } from "./equipment.entity";
 
 @Entity("employee")

@@ -1,9 +1,8 @@
 import { WebSocketGateway, WebSocketServer, OnGatewayConnection, SubscribeMessage, OnGatewayInit} from '@nestjs/websockets';
 import { Socket } from 'net';
-import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({namespace: 'order'})
-export class CrudOuterGateway implements OnGatewayConnection, OnGatewayInit {
+export class CrudGateway implements OnGatewayConnection, OnGatewayInit {
     @WebSocketServer() wss;
 
 
@@ -23,8 +22,6 @@ export class CrudOuterGateway implements OnGatewayConnection, OnGatewayInit {
         client.emit("orderRdy", "Your order is ready");
     }
 }
-
-
 
 function sleep(ms) {
     return new Promise((resolve) => {

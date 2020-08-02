@@ -1,92 +1,20 @@
-/*import { Injectable, BadRequestException} from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Location } from "./entities/location.entity";
-import { LocationDto } from "./dto/location.dto";
-import { Equipment } from "./entities/equipment.entity";
-import { Employee } from "./entities/employee.entity";
-import { EquipmentDto } from "./dto/equipment.dto";
-import { EmployeeDto } from "./dto/employee.dto";
-import { CrudGateway } from "./crud.gateway";
+import { CrudGateway } from "../crud.gateway";
+import { EmployeeDto } from "../dto/employee.dto";
+import { Employee } from "../entities/employee.entity";
+import { Equipment } from "../entities/equipment.entity";
 
-@Injectable() // szétszedni ezt a vackot több fileba
-export class CrudService {
+@Injectable()
+export class EmployeeService {
   constructor(
-    @InjectRepository(Location)
-    private locationRepository: Repository<Location>,
+    @InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>,
     @InjectRepository(Equipment)
     private equipmentRepository: Repository<Equipment>,
-    @InjectRepository(Employee) private employeeRepository: Repository<Employee>,
     private gateway: CrudGateway
   ) {}
-
-  ///LOCATION
-  async CreateLocation(locationDto: LocationDto) {
-    if (locationDto.name.split(' ').length > 2) throw new BadRequestException("The name of the location can only be a maximum of 2 words");
-    var strFirstFour = locationDto.address.substring(0,4);
-    if (isNumeric(strFirstFour)) throw new BadRequestException("Location address must start with 4 numbers");
-    const location = this.locationRepository.create(locationDto);
-    await this.locationRepository.save(location);
-    this.gateway.wss.emit('location', location);
-    return location;
-  }
-
-  async GetAllLocation() {
-    return this.locationRepository.find();
-  }
-
-  async UpdateLocation(locationDto: LocationDto, id: string) {
-    try{
-      await this.locationRepository.update({ id }, locationDto);
-      return await this.locationRepository.findOne({ id });
-    }
-    catch{
-      throw new BadRequestException("No such location");
-    }
-  }
-
-  async DeleteLocation(id: string) {
-    try{
-      await this.locationRepository.delete({ id });
-      return { deleted: true };
-    }
-    catch{
-      throw new BadRequestException("No such location");
-    }
-  }
-
-  ///EQUIPMENT
-  async GetAllEquipment() {
-    return this.equipmentRepository.find();
-  }
-
-  async CreateEquipment(equipmentDto: EquipmentDto) {
-    const equipment = this.equipmentRepository.create(equipmentDto);
-    await this.equipmentRepository.save(equipment);
-    return equipment;
-  }
-
-  async UpdateEquipment(equipmentDto: EquipmentDto, id: string) {
-    try{
-      await this.equipmentRepository.update({ id }, equipmentDto);
-      return await this.equipmentRepository.findOne({ id });
-    }
-    catch{
-      throw new BadRequestException("No such equipment");
-    }
-  }
-
-  async DeleteEquipment(id: string) {
-    try {
-      await this.equipmentRepository.delete({ id });
-      return { deleted: true };
-    }
-    catch{
-      throw new BadRequestException("No shuch equipment");
-    }
-  }
-
-  ///EMPLOYEE
   async GetAllEmployee() {
     return this.employeeRepository.find();
   }
@@ -230,10 +158,6 @@ async function CreateEmployeeAfterValidation(employeeDto: EmployeeDto, employeeR
   return Employee;
 }
 
-function isNumeric(num){
-  return isNaN(num)
-}
-
 async function notSameLocationCheck(employeeDto: EmployeeDto, equipmentRepository){
   const equipId = employeeDto.operates;
   let locat = employeeDto.worksat;
@@ -251,4 +175,4 @@ async function equipmentInUseCheck(employeeDto, employeeRepository){
     return;
   }
   throw new BadRequestException("Equipment already in use by someone else");
-}*/
+}

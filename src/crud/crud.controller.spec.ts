@@ -1,8 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
+/*import { Test, TestingModule } from "@nestjs/testing";
 import { LocationController, EmployeeController, EquipmentController } from "./crud.controller";
-import { Location } from "../entities/location.entity";
-import { Equipment } from "../entities/equipment.entity";
-import { Employee } from "../entities/employee.entity";
+import { Location } from "./entities/location.entity";
+import { Equipment } from "./entities/equipment.entity";
+import { Employee } from "./entities/employee.entity";
 import { CrudService } from "./crud.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
@@ -28,7 +28,7 @@ describe("Location Controller", () => {
   });
 });
 
-/*import { Test, TestingModule } from "@nestjs/testing";
+import { Test, TestingModule } from "@nestjs/testing";
 import { CrudService } from "./crud.service";
 import { LocationController, EmployeeController, EquipmentController } from "./crud.controller";
 import { getRepositoryToken } from "@nestjs/typeorm";
